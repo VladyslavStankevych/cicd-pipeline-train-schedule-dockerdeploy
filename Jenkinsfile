@@ -16,7 +16,7 @@ pipeline {
         script {
           app = docker.build("vladyslavs/train-schedule")
           app.inside {
-            sh '$(curl localhost:8080)'
+            sh 'echo $(curl localhost:8080)'
           }
         }
       }
@@ -43,7 +43,7 @@ pipeline {
          milestone(1)
          withCredentials([usernamePassword(credentialsId: deploy, usernameVariable: 'USERNAME', passwordVaribale: 'USERPASS')]) {
            script {
-             sh "sshpass -p $USERPASS -v ssh -o StrictHostKeyChecking=no $USERNAME@prod_ip \"docker pull vladyslavs/train-schedule:${env.BUILD_NUMBER} \""
+             sh "sshpass -p $USERPASS -v ssh -o StrictHostKeyChecking=no $USERNAME@prod_ip \"docker pull vladyslavs/train-schedule:${env.BUILD_NUMBER}] \""
              try {
                sh "sshpass -p $USERPASS -v ssh -o StrictHostKeyChecking=no $USERNAME@prod_ip \"docker stop train-schedule \""
                sh "sshpass -p @USERPASS -v ssh -o StrictHostKeyChecking=no $USERNAME@prod_ip \"docker rm train-schedule \""
